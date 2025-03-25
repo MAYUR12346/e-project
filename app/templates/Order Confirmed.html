@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow-sm border-0 rounded-3 p-4" style="max-width: 600px; width: 100%;">
+        <div class="text-center">
+            <img src="{{ url_for('static', filename='images/checkmark.png') }}" alt="Confirmed" width="50">
+            <h2 class="fw-bold text-success mt-3">Order Confirmed</h2>
+            <p class="text-muted">Your order is confirmed. You will receive an order confirmation email/SMS shortly with the expected delivery date for your items.</p>
+        </div>
+        
+        <div class="border rounded p-3 mt-3">
+            <h5 class="fw-bold">Delivering to:</h5>
+            <p class="mb-1"><strong>{{ user.name }}</strong> | {{ user.phone }}</p>
+            <p class="text-muted">{{ user.address }}, {{ user.city }}, {{ user.state }} - {{ user.pincode }}</p>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{{ url_for('views.my_orders') }}" class="btn btn-danger px-4">Go to My Orders</a>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

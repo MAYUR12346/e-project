@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.product_name }} - Product Details{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <div class="product-image-container">
+                <img src="{{ url_for('static', filename=product.product_picture) }}" class="img-fluid rounded shadow" alt="{{ product.product_name }}">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h2 class="fw-bold">{{ product.product_name }}</h2>
+            <p class="text-muted">{{ product.description }}</p>
+            <p class="text-danger fw-bold fs-4">
+                <span class="text-muted small"><s>₹{{ product.previous_price }}</s></span> ₹{{ product.current_price }}
+            </p>
+            <p><strong>Category:</strong> {{ product.category }}</p>
+            <p><strong>Color:</strong> <span class="badge bg-secondary">{{ product.color }}</span></p>
+            <p><strong>Stock:</strong> {{ stock }}</p>
+
+            
+    
+            <!-- Size Selection -->
+            {% if sizes %}
+            <p><strong>Available Sizes:</strong></p>
+            <form action="{{ url_for('views.add_to_cart', product_id=product.id) }}" method="POST">
+                <div class="mb-3">
+                    <label for="size" class="form-label">Select Size:</label>
+                    <select name="size" id="size" class="form-select w-75" required>
+                        <option value="" disabled selected>Choose a size</option>
+                        {% for size in sizes %}
+                            <option value="{{ size.size }}">{{ size.size }} ({{ size.quantity }} left)</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-success">🛒 Add to Cart</button>
+            </form>
+            {% else %}
+            <p class="text-muted">No sizes available for this product.</p>
+            {% endif %}  <!-- ✅ This ensures proper closure -->
+
+                        
+            
+
+            <!-- ❤️ Add to Wishlist Form -->
+            <form action="{{ url_for('views.wishlist_add', product_id=product.id) }}" method="POST">
+                <button type="submit" class="btn btn-outline-danger mt-2">❤️ Add to Wishlist</button>
+            </form>
+
+            <!-- 🛒 View Cart Button -->
+            <a href="{{ url_for('views.show_cart') }}" class="btn btn-primary mt-3">🛒 View Cart</a>
+
+            <!-- 🔙 Back Button -->
+            <a href="{{ url_for('views.brand_info', brand_id=product.brand_id) }}" class="btn btn-secondary mt-3">🔙 Back to Brand</a>
+        </div>
+    </div>
+</div>
+
+<!-- Suggested Products Section -->
+<div class="container mt-5">
+    <h3 class="fw-bold">Suggested Products</h3>
+    <div class="row">
+        {% if suggested_products %}
+            {% for sp in suggested_products %}
+            <div class="col-md-3">
+                <div class="card shadow-sm border-0 rounded">
+                    <img src="{{ url_for('static', filename=sp.product_picture) }}" class="card-img-top rounded-top" alt="{{ sp.product_name }}">
+                    <div class="card-body text-center">
+                        <h6 class="card-title text-truncate">{{ sp.product_name }}</h6>
+                        <p class="text-danger fw-bold">₹{{ sp.current_price }}</p>
+                        <a href="{{ url_for('views.product_info', product_id=sp.id) }}" class="btn btn-primary btn-sm">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted text-center">No related products available.</p>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .product-image-container img {
+        max-width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+    .card {
+        transition: transform 0.3s ease-in-out;
+    }
+    .card:hover {
+        transform: scale(1.05);
+    }
+</style>
+
+{% endblock %}

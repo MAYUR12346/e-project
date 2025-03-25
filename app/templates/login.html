@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Fashion Finds</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="left-container">
+            <h1>Fashion Finds</h1>
+            <img src="{{ url_for('static', filename='image/log-img.gif') }}" alt="fashion-finds" class="login-image">
+            <p>Discover the latest trends in fashion and explore your style.</p>
+        </div>
+        <div class="right-container">
+            <form method="POST">
+                <div class="login-container">
+                    <h2 class="login">Login</h2>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            <div class="messages">
+                                {% for category, message in messages %}
+                                    <div class="message-container">
+                                        <p class="{{ category }}">{{ message }}</p>
+                                        <span class="close-btn" onclick="this.parentElement.style.display='none'">&times;</span>
+                                    </div>
+                                {% endfor %}
+                                
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                   
+                    <label for="email" class="email">Email ID:</label>
+                    <input type="email" id="email" name="email" class="field" required>
+        
+                    <label for="password" class="password">Password:</label>
+                    <input type="password" id="password" name="password" class="field" required>
+        
+                    <button type="submit" class="button">Login</button>
+                    <p>Don't have an account? <a href="{{ url_for('auth.register') }}"><span class="register-link">Register here</span></a></p>
+                    <p><a href="{{ url_for('auth.forgot_password') }}" class="forget-link">Forgot Password?</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/functionality.js') }}"></script>
+</body>
+</html>

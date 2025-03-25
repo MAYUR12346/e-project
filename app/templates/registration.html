@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration - Fashion Finds</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="left-container">
+            <h1>Fashion Finds</h1>
+            <img src="{{ url_for('static', filename='image/reg-img.gif') }}" alt="fashion-finds" class="login-image">
+            <p>Discover the latest trends in fashion and explore your style.</p>
+        </div>
+        <div class="right-container">
+            <form method="POST">
+                <div class="login-container">
+                    <h2 class="login">Register</h2>
+        
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            <div class="messages">
+                                {% for category, message in messages %}
+                                    <p class="{{ category }}">{{ message }}</p>
+                                    <span class="close-btn" onclick="this.parentElement.style.display='none'">&times;</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+        
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+        
+                    <label for="email">Email ID:</label>
+                    <input type="email" id="email" name="email" required>
+        
+                    <label for="phone">Phone:</label>
+                    <input type="tel" id="phone" name="phone" required>
+        
+                    <label for="address">Address:</label>
+                    <input type="text" id="address" name="address" required>
+        
+                    <label for="state">State:</label>
+                    <select id="state" name="state" required>
+                        <option value="">Select State</option>
+                    </select>
+        
+                    <label for="city">City:</label>
+                    <select id="city" name="city" required>
+                        <option value="">Select City</option>
+                    </select>
+        
+                    <label for="pincode">Pincode:</label>
+                    <input type="text" id="pincode" name="pincode" required>
+        
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+        
+                    <label for="confirm_password">Confirm Password:</label>
+                    <input type="password" id="confirm_password" name="confirm_password" required>
+
+                    <label for="role">Role</label>
+                    <select id="role" name="role" required>
+                        <option value="">Select Role</option>
+                        <option value="user">User</option>
+                        <option value="delivery_agent">Delivery Agent</option>
+                        <!-- <option value="admin">Admin</option> -->
+                    </select>
+        
+                    <button type="submit">Register</button>
+                    <p class="register-login-text">Already have an account? <a href="{{ url_for('auth.login') }}">Login here</a></p>
+                </div>
+            </form>
+        </div>
+    </div>      
+    <script src="{{ url_for('static', filename='js/state_city.js') }}"></script>
+</body>
+</html>

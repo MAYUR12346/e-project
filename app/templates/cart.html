@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="fw-bold">My <span class="text-primary">Shopping Cart</span> ({{ cart_items|length }} items)</h2>
+    
+    {% if cart_items %}
+    <div class="row mt-4">
+        <div class="col-lg-8">
+            <div class="list-group">
+                {% for item in cart_items %}
+                <div class="list-group-item d-flex align-items-center shadow-sm mb-3 rounded">
+                    <img src="{{ url_for('static', filename=item[1].product_picture) }}" class="cart-img me-3 fixed-cart-img" alt="{{ item[1].product_name }}">
+                    <div class="flex-grow-1">
+                        <h5 class="mb-1">{{ item[1].product_name }}</h5>
+                        <p class="mb-1 text-muted">MRP: <s>Rs.{{ item[1].previous_price }}</s> Rs.<span class="item-price" data-price="{{ item[1].current_price }}">{{ item[1].current_price }}</span></p>
+                        <p class="text-success">Discount: ₹<span class="item-discount" data-discount="{{ item[1].discount }}">{{ item[1].discount }}</span></p>
+                        <div class="d-flex align-items-center">
+                            <form action="{{ url_for('views.remove_from_cart', product_id=item[1].id) }}" method="post" class="me-2">
+                                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="ms-3">
+                        <input type="number" class="form-control quantity-input" value="{{ item[0].quantity }}" min="1" data-product-id="{{ item[1].id }}">
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card shadow-sm p-3">
+                <h4 class="fw-bold">PRICE DETAILS ({{ cart_items|length }} Items)</h4>
+                <hr>
+                <p>Total MRP: <strong>Rs.<span id="total-mrp">{{ "%.0f"|format(total_mrp) }}</span></strong></p>
+                <p>Discount on MRP: <strong class="text-success">- Rs.<span id="total-discount">{{ "%.0f"|format(total_discount) }}</span></strong></p>
+                <p>Shipping Fee: <strong class="text-success">FREE</strong></p>
+                <hr>
+                <p><strong>Total Amount: <span id="final-amount">Rs.{{ "%.0f"|format(total_amount) }}</span></strong></p>
+                <a href="{{ url_for('views.checkout') }}" class="btn btn-primary w-100">Proceed to Checkout</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="text-center mt-5">
+        <h4>Your cart is empty 🛒</h4>
+        <a href="{{ url_for('views.homepage') }}" class="btn btn-primary mt-3">Continue Shopping</a>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .fixed-cart-img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+</style>
+
+<script>
+    document.querySelectorAll('.quantity-input').forEach(input => {
+        input.addEventListener('change', function () {
+            const productId = this.dataset.productId;
+            const newQuantity = parseInt(this.value);
+            
+            fetch(`/update_cart_quantity/${productId}`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: `quantity=${newQuantity}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('total-mrp').textContent = data.total_mrp;
+                    document.getElementById('total-discount').textContent = data.total_discount;
+                    document.getElementById('final-amount').textContent = `Rs.${data.total_amount}`;
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

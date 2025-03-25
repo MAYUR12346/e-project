@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FASHION FINDS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}">
+    
+</head>
+
+    <div class="nav-container">
+        <nav class="navbar">
+            <div class="logo">FASHION FINDS</div>
+            <div class="main-nav">
+                <a href="/" class="nav-item active">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="{{ url_for('views.products_by_category', category_name='Men') }}" class="nav-item">
+              
+                    <i class="fas fa-male"></i>
+                    <span>Men</span>
+                </a>
+                <a href="{{ url_for('views.products_by_category', category_name='Kids') }}" class="nav-item">
+                    <i class="fas fa-child"></i>
+                    <span>Kids</span>
+                </a>
+                <a href="{{ url_for('views.products_by_category', category_name='Women') }}" class="nav-item">
+                    <i class="fas fa-female"></i>
+                    <span>Women</span>
+                </a>
+                <a href="{{ url_for('views.products_by_category', category_name='Accessories') }}" class="nav-item">
+                    <i class="fas fa-bag-shopping"></i>
+                    <span>Accessories</span>
+                </a>
+                <a href="{{ url_for('views.products_by_category', category_name='Shoes') }}" class="nav-item">
+                    <i class="fas fa-shoe-prints"></i>
+                    <span>Shoes</span>
+                </a>
+            </div>
+            
+                <div class="search-container">
+                    <form action="{{ url_for('views.search') }}" method="GET" class="search-bar">
+                        <input type="text" 
+                               name="query" 
+                               class="search-input" 
+                               placeholder="Search products, brands, and categories..." 
+                               required>
+                        <button type="submit" class="search-button">
+                            <svg class="search-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            
+
+            <div class="nav-actions">
+                <a href="/wishlist" class="nav-item">
+                    <i class="far fa-heart"></i>
+                    <span>Wishlist</span>
+                </a>
+                <a href="/cart" class="nav-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Cart</span>
+                </a>
+                <div class="dropdown">
+                    <a href="/account" class="nav-item">
+                        <i class="far fa-user"></i>
+                        <span>Account</span>
+                    </a>
+                    <div class="dropdown-content">
+                        
+                        <a href="{{ url_for('views.my_orders') }}" class="dropdown-item">My Orders</a>
+                        <a href="{{ url_for('views.show_wishlist') }}" class="dropdown-item">My Wishlist</a>
+                        <a href="{{ url_for('views.show_cart') }}" class="dropdown-item">My Cart</a>
+                        <a href="{{ url_for('auth.account') }}" class="dropdown-item">Account</a>
+                        <a href="{{ url_for('auth.logout') }}" class="dropdown-item">Logout</a>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>

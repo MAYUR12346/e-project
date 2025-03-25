@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h3>Account Details</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Name:</strong> {{ current_user.name }}</p>
+                    <p><strong>Email:</strong> {{ current_user.email }}</p>
+                    <p><strong>Phone:</strong> {{ current_user.phone }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Address:</strong> {{ current_user.address }}</p>
+                    <p><strong>City:</strong> {{ current_user.city }}</p>
+                    <p><strong>State:</strong> {{ current_user.state }}</p>
+                </div>
+            </div>
+            <div class="mt-4">
+                <a href="{{ url_for('auth.update_profile') }}" class="btn btn-primary">
+                    Edit Profile
+                </a>
+                <a href="{{ url_for('auth.update_password') }}" class="btn btn-secondary">
+                    Change Password
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

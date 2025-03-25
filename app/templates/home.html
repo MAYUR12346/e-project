@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="responsive-slider">
+    <div class="slider-container">
+        <div class="slider-track">
+            <div class="slide">   
+                <img src="{{ url_for('static', filename='images/slaider img1.png') }}" alt="Slider Image">
+            </div>
+            <div class="slide">
+                <img src="{{ url_for('static', filename='images/slaider img2.png') }}" alt="Slider Image">
+            </div>
+            <div class="slide">
+                <img src="{{ url_for('static', filename='images/slaider img4.png') }}" alt="Slider Image">
+            </div>
+        </div>
+    </div>
+    <button class="arrow-btn prev-btn" aria-label="Previous slide">◀</button>
+    <button class="arrow-btn next-btn" aria-label="Next slide">▶</button>
+    <div class="slider-controls"></div>
+</section>    
+
+<h2 class="mb-2 text-center">All Brands</h2>
+<div class="brand-container">
+    {% for brand in brands %}
+    <div class="card">
+        <div class="brand-card">
+            <img src="{{ url_for('static', filename=brand.logo) }}" alt="{{ brand.name }}">
+        </div>
+        <div class="card-content">
+            <h5 class="card-title">{{ brand.name }}</h5>
+            <div class="offer-text">Up to 60% Off</div>
+            <a href="{{ url_for('views.brand_info', brand_id=brand.id) }}" class="view-btn">View Details</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<h2 class="mb-2 text-center">Latest Products</h2>
+<div class="product-container">
+    {% for product in products %}
+    <div class="product-card">
+        <img src="{{ url_for('static', filename=product.product_picture) }}" alt="{{ product.product_name }}">
+        <div class="product-content">
+            <h5 class="product-title">{{ product.product_name }}</h5>
+            <p class="product-price">
+                <span class="current-price">₹{{ product.current_price }}</span>
+                {% if product.previous_price > product.current_price %}
+                <span class="previous-price">₹{{ product.previous_price }}</span>
+                {% endif %}
+            </p>
+            <a href="{{ url_for('views.product_info', product_id=product.id) }}" class="details-btn">View Details</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+    .brand-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 20px;
+    }
+    
+    .card {
+        width: 250px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 15px;
+    }
+
+    .brand-card img {
+        width: 150px;
+        height: 150px;
+        object-fit: contain;
+    }
+
+    .product-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        padding: 20px;
+        justify-content: center;
+    }
+
+    .product-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .product-card img {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .product-content {
+        padding: 10px;
+    }
+
+    .product-title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .product-price {
+        font-size: 14px;
+        color: #555;
+    }
+
+    .current-price {
+        font-weight: bold;
+        color: #C4877A;
+    }
+
+    .previous-price {
+        text-decoration: line-through;
+        color: #888;
+        margin-left: 5px;
+    }
+
+    .details-btn {
+        display: inline-block;
+        padding: 8px 12px;
+        background: #C4877A;
+        color: #fff;
+        font-size: 14px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background 0.3s ease;
+    }
+
+    .details-btn:hover {
+        background: #a05f5f;
+    }
+</style>
+{% endblock %}
